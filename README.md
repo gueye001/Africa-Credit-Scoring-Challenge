@@ -234,16 +234,12 @@ jupyter notebook notebooks/v16_stacking.ipynb
 ## 📈 Final Leaderboard Position
 
 ```
-🥇 Top 1  → 0.8289 (41 submissions — likely public LB overfit)
+🥇 Top 1  → 0.8289
 🥈 Top 2  → 0.7051
 🥉 Top 3  → 0.7002
 ...
 🏅 Us     → 0.6805 (17th / 151)
 ```
-
-> **Note:** Top 1 made 41 submissions suggesting heavy public LB optimization.
-> With only ~15 stable submissions, our model should be more robust
-> on the private leaderboard (70% of test data).
 
 ---
 
@@ -263,7 +259,7 @@ jupyter notebook notebooks/v16_stacking.ipynb
 
 ## 👤 Author
 
-**Xaadiiim** (kgueye001)
+GUEYE Khadim
 
 [![Kaggle](https://img.shields.io/badge/Kaggle-kgueye-blue)](https://kaggle.com/kgueye)
 [![Zindi](https://img.shields.io/badge/Zindi-kgueye001-orange)](https://zindi.africa/users/kgueye001)
