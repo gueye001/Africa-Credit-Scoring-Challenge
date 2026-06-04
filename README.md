@@ -1,6 +1,10 @@
 # 🌍 AI4EAC Finance Practice Challenge
 ### May Study Jam Series | Zindi Africa
 
+![Challenge Banner](images/challenge_banner.png)
+
+[![Rank](https://img.shields.io/badge/Rank-17th%20%2F%20151-gold)]
+
 [![Zindi](https://img.shields.io/badge/Zindi-500%20Points-blue)](https://zindi.africa)
 [![Rank](https://img.shields.io/badge/Rank-17th%20%2F%20151-gold)](https://zindi.africa)
 [![F1 Score](https://img.shields.io/badge/Best%20F1-0.6805-green)](https://zindi.africa)
