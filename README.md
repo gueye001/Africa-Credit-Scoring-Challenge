@@ -12,7 +12,7 @@
 
 ![Challenge Banner](images/challenge_banner.png)
 
-[![Rank](https://img.shields.io/badge/Rank-17th%20%2F%20151-gold)]
+
 
 ---
 
