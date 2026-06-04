@@ -35,6 +35,14 @@
 
 ---
 
+## 📊 Key Insights
+
+![EDA Insights](images/eda_insights.png)
+
+> **Left to right:** Class imbalance (98%/2%), 
+> Domain shift Kenya→Ghana, New vs Repeat loan risk, 
+> Top 5 riskiest loan types
+
 ## 📂 Dataset Structure
 
 ```
@@ -131,6 +139,15 @@ StratifiedKFold (n=5)
 → OOF predictions for honest evaluation
 → Threshold optimized on OOF (0.715, not default 0.5)
 ```
+
+## 🤖 Model Comparison
+
+![Model Comparison](images/model_comparison.png)
+
+> LightGBM dominates with OOF F1 = 0.8998, 
+> followed by XGBoost (0.8987). 
+> Single models outperform naive ensembles 
+> on this dataset.
 
 ---
 
