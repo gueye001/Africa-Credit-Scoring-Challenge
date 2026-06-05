@@ -1,18 +1,24 @@
 # 🌍 AI4EAC Finance Practice Challenge
 ### May Study Jam Series | Zindi Africa
 
-
-
 [![Zindi](https://img.shields.io/badge/Zindi-500%20Points-blue)](https://zindi.africa)
 [![Rank](https://img.shields.io/badge/Rank-17th%20%2F%20151-gold)](https://zindi.africa)
 [![F1 Score](https://img.shields.io/badge/Best%20F1-0.6805-green)](https://zindi.africa)
 [![Python](https://img.shields.io/badge/Python-3.10-blue)](https://python.org)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.x-orange)](https://lightgbm.readthedocs.io)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688)](https://fastapi.tiangolo.com)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED)](https://docker.com)
+[![Cloud Run](https://img.shields.io/badge/Google%20Cloud%20Run-deployed-4285F4)](https://cloud.google.com/run)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-Spaces-FFD21E)](https://huggingface.co/spaces/kgueye001/africa-credit-scoring)
 
+---
 
-![Challenge Banner](images/challenge_banner.png)
+## 🔗 Live Demo
 
-
+| Service | URL |
+|---------|-----|
+| 🎮 Interface Gradio | [huggingface.co/spaces/kgueye001/africa-credit-scoring](https://huggingface.co/spaces/kgueye001/africa-credit-scoring) |
+| ⚡ API REST | [africa-credit-api-245513771842.europe-west1.run.app/docs](https://africa-credit-api-245513771842.europe-west1.run.app/docs) |
 
 ---
 
@@ -39,9 +45,11 @@
 
 ![EDA Insights](images/eda_insights.png)
 
-> **Left to right:** Class imbalance (98%/2%), 
-> Domain shift Kenya→Ghana, New vs Repeat loan risk, 
+> **Left to right:** Class imbalance (98%/2%),
+> Domain shift Kenya→Ghana, New vs Repeat loan risk,
 > Top 5 riskiest loan types
+
+---
 
 ## 📂 Dataset Structure
 
@@ -144,9 +152,9 @@ StratifiedKFold (n=5)
 
 ![Model Comparison](images/model_comparison.png)
 
-> LightGBM dominates with OOF F1 = 0.8998, 
-> followed by XGBoost (0.8987). 
-> Single models outperform naive ensembles 
+> LightGBM dominates with OOF F1 = 0.8998,
+> followed by XGBoost (0.8987).
+> Single models outperform naive ensembles
 > on this dataset.
 
 ---
@@ -220,17 +228,74 @@ Examples where higher OOF → lower Public:
 
 ---
 
+## 🚀 Production Deployment
+
+Full end-to-end ML pipeline deployed in production:
+
+```
+Kaggle Notebook
+      ↓
+  model.py (LightGBM × 5 folds)
+      ↓
+  app.py (FastAPI REST API)
+      ↓
+  Dockerfile (python:3.10-slim + libgomp1)
+      ↓
+  Google Container Registry
+      ↓
+  Google Cloud Run (europe-west1, 4Gi RAM, 2 CPU)
+      ↓
+  Gradio Interface (Hugging Face Spaces)
+```
+
+### API Endpoints
+```
+GET  /health      → API status
+GET  /model/info  → model metadata
+POST /predict     → loan default prediction
+```
+
+### Prediction Example
+```json
+POST /predict
+{
+  "Total_Amount": 50000,
+  "Total_Amount_to_Repay": 55000,
+  "duration": 30,
+  "country_id": "Kenya",
+  "loan_type": "Type_1"
+}
+
+Response:
+{
+  "probability": 0.7923,
+  "prediction": 1,
+  "prediction_label": "Default",
+  "credit_score": 414,
+  "risk_category": "Very High"
+}
+```
+
+---
+
 ## 📁 Repository Structure
 
 ```
 ├── notebooks/
-│   ├── eda.ipynb              # Exploratory Data Analysis
-│   ├── v8_best_single.ipynb   # Best single model (F1: 0.6648)
-│   └── v16_stacking.ipynb     # Best stacking model (F1: 0.6805)
-├── src/
-│   ├── features.py            # Feature engineering pipeline
-│   ├── train.py               # Training loop with CV
-│   └── utils.py               # Helper functions
+│   ├── eda.ipynb                 # Exploratory Data Analysis
+│   ├── v8_best_single.ipynb      # Best single model (F1: 0.6648)
+│   └── v16_stacking.ipynb        # Best stacking model (F1: 0.6805)
+├── api/
+│   ├── model.py                  # LightGBM loader + predict()
+│   ├── app.py                    # FastAPI endpoints
+│   ├── Dockerfile                # Container definition
+│   └── requirements.txt          # API dependencies
+├── demo/
+│   └── gradio_app.py             # Hugging Face Spaces interface
+├── images/
+│   ├── challenge_banner.png
+│   ├── eda_insights.png
+│   └── model_comparison.png
 └── README.md
 ```
 
@@ -238,19 +303,27 @@ Examples where higher OOF → lower Public:
 
 ## 🔧 How to Run
 
+### Local API
 ```bash
-# Clone the repository
-git clone https://github.com/kgueye001/ai4eac-finance-challenge
-cd ai4eac-finance-challenge
+git clone https://github.com/gueye001/Africa-Credit-Scoring-Challenge
+cd Africa-Credit-Scoring-Challenge/api
 
-# Install dependencies
-pip install lightgbm scikit-learn pandas numpy matplotlib seaborn
+pip install -r requirements.txt
+python app.py
+# → http://localhost:8080/docs
+```
 
-# Run best single model
-jupyter notebook notebooks/v8_best_single.ipynb
+### Docker
+```bash
+docker build -t africa-credit-api .
+docker run -p 8080:8080 africa-credit-api
+```
 
-# Run stacking model
-jupyter notebook notebooks/v16_stacking.ipynb
+### Gradio Demo
+```bash
+pip install gradio requests
+python demo/gradio_app.py
+# → http://localhost:7860
 ```
 
 ---
@@ -275,18 +348,23 @@ jupyter notebook notebooks/v16_stacking.ipynb
 | LightGBM | 4.x | Primary model |
 | Scikit-learn | 1.x | CV, metrics |
 | Pandas | 2.x | Data manipulation |
-| NumPy | 1.x | Numerical ops |
-| Matplotlib/Seaborn | — | Visualization |
+| NumPy | 2.x | Numerical ops |
+| FastAPI | 0.115 | REST API |
+| Docker | — | Containerization |
+| Google Cloud Run | — | API deployment |
+| Gradio | 5.x | Demo interface |
+| Hugging Face Spaces | — | Demo hosting |
 | SciPy | — | COBYLA optimization |
 
 ---
 
 ## 👤 Author
 
-GUEYE Khadim
+**GUEYE Khadim**
 
 [![Kaggle](https://img.shields.io/badge/Kaggle-kgueye-blue)](https://kaggle.com/kgueye)
 [![Zindi](https://img.shields.io/badge/Zindi-kgueye001-orange)](https://zindi.africa/users/kgueye001)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-kgueye001-FFD21E)](https://huggingface.co/kgueye001)
 
 ---
 
