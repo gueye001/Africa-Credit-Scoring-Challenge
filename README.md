@@ -31,7 +31,7 @@ Client
       -> plusieurs lignes, une par prêteur
 ```
 
-Cette organisation a conduit à comparer deux niveaux de modélisation : `line-level` et `loan-level`.
+La structure hiérarchique des données a motivé un `multi-granularity stacking`. Un premier modèle produit des prédictions au niveau `line-level`, afin de conserver les informations propres à chaque prêteur. Un second modèle travaille au niveau `loan-level`, avec des variables agrégées sur l’ensemble du prêt. Les deux prédictions sont ensuite combinées dans la prédiction finale.
 
 ## Feature engineering
 
